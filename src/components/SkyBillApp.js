@@ -2,11 +2,7 @@
 
 let React = require('react/addons');
 
-// CSS
-require('normalize.css');
-require('../styles/main.css');
-
-var SkyBillApp = React.createClass({
+let SkyBillApp = React.createClass({
   render: function() {
     return (
       <h1>Hello world</h1>

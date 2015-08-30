@@ -18,7 +18,10 @@ module.exports = {
 
   debug: false,
   devtool: false,
-  entry: './src/components/main.js',
+  entry: [
+    './src/components/main.js',
+    './src/styles/main.scss'
+  ],
 
   stats: {
     colors: true,
@@ -58,7 +61,7 @@ module.exports = {
       test: /\.css$/,
       loader: 'style-loader!css-loader'
     }, {
-      test: /\.sass/,
+      test: /\.scss/,
       loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded&indentedSyntax'
     }, {
       test: /\.(png|jpg|woff|woff2)$/,

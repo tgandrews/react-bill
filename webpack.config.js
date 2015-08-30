@@ -19,7 +19,8 @@ module.exports = {
   devtool: 'sourcemap',
   entry: [
       'webpack/hot/only-dev-server',
-      './src/components/main.js'
+      './src/components/main.js',
+      './src/styles/main.scss'
   ],
 
   stats: {
@@ -48,7 +49,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'react-hot!babel-loader'
     }, {
-      test: /\.sass/,
+      test: /\.scss/,
       loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded&indentedSyntax'
     }, {
       test: /\.css$/,
