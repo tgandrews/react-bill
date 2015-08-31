@@ -1,6 +1,6 @@
 'use strict';
 
-let React = require('react/addons');
+import React from 'react';
 
 let SkyBillApp = React.createClass({
   render: function() {
