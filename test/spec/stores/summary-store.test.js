@@ -321,4 +321,83 @@ describe('Summary store', () => {
       });
     });
   });
+
+  describe('#getDue', () => {
+    it('should be null by default', () => {
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      let store = new SummaryStore(MockDispatcher);
+      expect(store.getDue()).toEqual(null);
+    });
+
+    it('should be a valid date when provided', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new SummaryStore(MockDispatcher);
+
+      store.on(SummaryStore.CHANGE_EVENT, () => {
+        expect(store.getDue()).toEqual(new Date('2015-05-12'));
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          statement: {
+            due: '2015-05-12'
+          }
+        }
+      });
+    });
+
+    it('should null when there is no value provided', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new SummaryStore(MockDispatcher);
+
+      store.on(SummaryStore.CHANGE_EVENT, () => {
+        expect(store.getDue()).toEqual(null);
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          statement: {
+          }
+        }
+      });
+    });
+
+    it('should null when there is an invalid value provided', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new SummaryStore(MockDispatcher);
+
+      store.on(SummaryStore.CHANGE_EVENT, () => {
+        expect(store.getDue()).toEqual(null);
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          statement: {
+            due: 'I aint a date'
+          }
+        }
+      });
+    });
+  });
 });

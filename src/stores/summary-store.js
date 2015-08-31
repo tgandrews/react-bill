@@ -23,6 +23,7 @@ class SummaryStore extends EventEmitter {
     this._total = null;
     this._period = {to: null, from: null};
     this._generated = null;
+    this._due = null;
 
     self = this;
     dispatcher.register((action) => {
@@ -35,6 +36,9 @@ class SummaryStore extends EventEmitter {
 
           let generated = action.value && action.value.statement && action.value.statement.generated;
           self.setGenerated(generated);
+
+          let due = action.value && action.value.statement && action.value.statement.due;
+          self.setDue(due);
 
           self.emitChange();
           break;
@@ -73,6 +77,13 @@ class SummaryStore extends EventEmitter {
   }
   setGenerated(generated) {
     this._generated = getDateOrNull(generated);
+  }
+
+  getDue() {
+    return this._due;
+  }
+  setDue(due) {
+    this._due = getDateOrNull(due);
   }
 }
 SummaryStore.CHANGE_EVENT = CHANGE_EVENT;
