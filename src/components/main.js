@@ -1,18 +1,23 @@
 'use strict';
 
-var SkyBillApp = require('./SkyBillApp');
-var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
+import React from 'react';
+import Dispatcher from '../dispatcher/dispatcher';
 
-var content = document.getElementById('content');
+import BillLoaderAction from '../actions/bill-loader-action';
+import BillLoader from '../bill-loader';
 
-var Routes = (
-  <Route handler={SkyBillApp}>
-    <Route name="/" handler={SkyBillApp}/>
-  </Route>
-);
+import LoadingStore from '../stores/loading-store';
+import SummaryStore from '../stores/summary-store';
 
-Router.run(Routes, function (Handler) {
-  React.render(<Handler/>, content);
-});
+import App from './App';
+
+let stores = {
+  loading: new LoadingStore(Dispatcher),
+  summary: new SummaryStore(Dispatcher)
+};
+
+let action = new BillLoaderAction(Dispatcher);
+BillLoader.load(action);
+
+let content = document.getElementById('content');
+React.render(<App stores={stores} />, content);
