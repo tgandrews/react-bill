@@ -154,4 +154,92 @@ describe('Summary store', () => {
       });
     });
   });
+
+  describe('#getPeriod', () => {
+    it('should default to null', () => {
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      let store = new SummaryStore(MockDispatcher);
+      expect(store.getPeriod()).toEqual({ to: null, from: null });
+    });
+
+    it('should update the period to be valid date objects', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new SummaryStore(MockDispatcher);
+
+      store.on(SummaryStore.CHANGE_EVENT, () => {
+        expect(store.getPeriod().from).toEqual(new Date('2014-01-01'));
+        expect(store.getPeriod().to).toEqual(new Date('2015-01-01'));
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          statement: {
+            period: {
+              from: '2014-01-01',
+              to: '2015-01-01'
+            }
+          }
+        }
+      });
+    });
+
+    it('should be null if there is no period provided', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new SummaryStore(MockDispatcher);
+
+      store.on(SummaryStore.CHANGE_EVENT, () => {
+        expect(store.getPeriod().from).toBe(null);
+        expect(store.getPeriod().to).toBe(null);
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          statement: {
+          }
+        }
+      });
+    });
+
+    it('should be null if the date is invalid', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new SummaryStore(MockDispatcher);
+
+      store.on(SummaryStore.CHANGE_EVENT, () => {
+        expect(store.getPeriod().from).toBe(null);
+        expect(store.getPeriod().to).toBe(null);
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          statement: {
+            period: {
+              from: 'not a date',
+              to: 'definitely not a date'
+            }
+          }
+        }
+      });
+    });
+  });
 });

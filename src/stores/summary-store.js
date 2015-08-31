@@ -13,12 +13,17 @@ class SummaryStore extends EventEmitter {
   constructor (dispatcher) {
     super();
     this._total = null;
+    this._period = {to: null, from: null};
 
     self = this;
     dispatcher.register((action) => {
       switch(action.type) {
         case LOADED_ACTION:
           self.setTotal(action.value);
+
+          let period = action.value && action.value.statement && action.value.statement.period;
+          self.setPeriod(period);
+
           self.emitChange();
           break;
       }
@@ -27,6 +32,7 @@ class SummaryStore extends EventEmitter {
   emitChange () {
     this.emit(CHANGE_EVENT);
   }
+
   getTotal() {
     return this._total;
   }
@@ -37,6 +43,29 @@ class SummaryStore extends EventEmitter {
     else {
       this._total = null;
     }
+  }
+
+  getPeriod() {
+    return this._period;
+  }
+  setPeriod(period) {
+    let fromDate = null;
+    let toDate = null;
+    if (period) {
+      fromDate = new Date(period.from);
+      toDate = new Date(period.to);
+
+      if (isNaN(fromDate.getDate())) {
+        fromDate = null;
+      }
+      if (isNaN(toDate.getDate())) {
+        toDate = null;
+      }
+    }
+    this._period = {
+      from: fromDate,
+      to: toDate
+    };
   }
 }
 SummaryStore.CHANGE_EVENT = CHANGE_EVENT;
