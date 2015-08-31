@@ -29,7 +29,7 @@ describe('TV store', () => {
 
       let store = new TVStore(MockDispatcher);
 
-      store.on(TVStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(EXPECTED_TOTAL);
         done();
       });
@@ -60,7 +60,7 @@ describe('TV store', () => {
 
       let notValidValues = [ 'not a number', NaN, Infinity, -1, {}, null, undefined ];
       let callbackCount = 0;
-      store.on(TVStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         callbackCount++;
         expect(store.getTotal()).toBe(null);
         if (callbackCount === notValidValues.length) {
@@ -104,7 +104,7 @@ describe('TV store', () => {
 
       let store = new TVStore(MockDispatcher);
 
-      store.on(TVStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getPackage()).toBe(EXPECTED_PACKAGE);
         done();
       });
@@ -135,7 +135,7 @@ describe('TV store', () => {
 
       let notValidValues = [ NaN, Infinity, -1, {}, null, undefined ];
       let callbackCount = 0;
-      store.on(TVStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         callbackCount++;
         expect(store.getPackage()).toBe(null);
         if (callbackCount === notValidValues.length) {
@@ -178,7 +178,7 @@ describe('TV store', () => {
 
       let store = new TVStore(MockDispatcher);
 
-      store.on(TVStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.hasSubscription()).toBe(true);
         done();
       });

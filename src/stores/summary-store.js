@@ -41,9 +41,6 @@ class SummaryStore extends EventEmitter {
       }
     });
   }
-  emitChange () {
-    this.emit(CHANGE_EVENT);
-  }
 
   getTotal() {
     return this._total;
@@ -80,6 +77,16 @@ class SummaryStore extends EventEmitter {
   }
   setDue(due) {
     this._due = getDateOrNull(due);
+  }
+
+  emitChange () {
+    this.emit(CHANGE_EVENT);
+  }
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback);
+  }
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
   }
 }
 SummaryStore.CHANGE_EVENT = CHANGE_EVENT;

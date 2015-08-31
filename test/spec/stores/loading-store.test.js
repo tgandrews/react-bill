@@ -29,7 +29,7 @@ describe('Loading Store', () => {
       });
       let store = new LoadingStore(MockDispatcher);
 
-      store.on(LoadingStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getState()).toBe(LoadingStore.LOADED);
         done();
       });

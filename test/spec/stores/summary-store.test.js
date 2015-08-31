@@ -32,7 +32,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(EXPECTED_TOTAL);
         done();
       });
@@ -54,7 +54,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(null);
         done();
       });
@@ -75,7 +75,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(null);
         done();
       });
@@ -97,7 +97,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(null);
         done();
       });
@@ -119,7 +119,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(0);
         done();
       });
@@ -141,7 +141,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getTotal()).toBe(null);
         done();
       });
@@ -171,7 +171,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getPeriod().from).toEqual(new Date('2014-01-01'));
         expect(store.getPeriod().to).toEqual(new Date('2015-01-01'));
         done();
@@ -199,7 +199,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getPeriod().from).toBe(null);
         expect(store.getPeriod().to).toBe(null);
         done();
@@ -223,7 +223,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getPeriod().from).toBe(null);
         expect(store.getPeriod().to).toBe(null);
         done();
@@ -259,7 +259,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getGenerated()).toEqual(new Date('2015-05-12'));
         done();
       });
@@ -283,7 +283,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getGenerated()).toEqual(null);
         done();
       });
@@ -306,7 +306,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getGenerated()).toEqual(null);
         done();
       });
@@ -338,7 +338,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getDue()).toEqual(new Date('2015-05-12'));
         done();
       });
@@ -362,7 +362,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getDue()).toEqual(null);
         done();
       });
@@ -385,7 +385,7 @@ describe('Summary store', () => {
 
       let store = new SummaryStore(MockDispatcher);
 
-      store.on(SummaryStore.CHANGE_EVENT, () => {
+      store.addChangeListener(() => {
         expect(store.getDue()).toEqual(null);
         done();
       });
