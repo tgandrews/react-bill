@@ -9,11 +9,20 @@ function isValidTotal(value) {
     && value >= 0;
 }
 
+function getDateOrNull(value) {
+  let date = new Date(value);
+  if (isNaN(date.getDate())){
+    date = null;
+  }
+  return date;
+}
+
 class SummaryStore extends EventEmitter {
   constructor (dispatcher) {
     super();
     this._total = null;
     this._period = {to: null, from: null};
+    this._generated = null;
 
     self = this;
     dispatcher.register((action) => {
@@ -23,6 +32,9 @@ class SummaryStore extends EventEmitter {
 
           let period = action.value && action.value.statement && action.value.statement.period;
           self.setPeriod(period);
+
+          let generated = action.value && action.value.statement && action.value.statement.generated;
+          self.setGenerated(generated);
 
           self.emitChange();
           break;
@@ -49,23 +61,18 @@ class SummaryStore extends EventEmitter {
     return this._period;
   }
   setPeriod(period) {
-    let fromDate = null;
-    let toDate = null;
-    if (period) {
-      fromDate = new Date(period.from);
-      toDate = new Date(period.to);
-
-      if (isNaN(fromDate.getDate())) {
-        fromDate = null;
-      }
-      if (isNaN(toDate.getDate())) {
-        toDate = null;
-      }
-    }
+    period = period || {};
     this._period = {
-      from: fromDate,
-      to: toDate
+      from: getDateOrNull(period.from),
+      to: getDateOrNull(period.to)
     };
+  }
+
+  getGenerated() {
+    return this._generated;
+  }
+  setGenerated(generated) {
+    this._generated = getDateOrNull(generated);
   }
 }
 SummaryStore.CHANGE_EVENT = CHANGE_EVENT;
