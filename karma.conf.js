@@ -68,7 +68,7 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     colors: true,
     autoWatch: false,
-    browsers: ['Chrome', 'Firefox'],
+    browsers: ['Chrome', 'Firefox', 'Safari'],
     reporters: ['dots'],
     captureTimeout: 60000,
     singleRun: true,
@@ -77,7 +77,8 @@ module.exports = function (config) {
         require('karma-sourcemap-loader'),
         require('karma-jasmine'),
         require('karma-chrome-launcher'),
-        require('karma-firefox-launcher')
+        require('karma-firefox-launcher'),
+        require('karma-safari-launcher')
     ]
   });
 };
