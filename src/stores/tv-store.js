@@ -12,16 +12,23 @@ class TVStore extends EventEmitter {
 
     this._total = null;
     this._package = null;
+    this._hasSubscription = false;
 
     let self = this;
     dispatcher.register((action) => {
       switch(action.type) {
         case LOADED_ACTION:
           let data = action.value;
+
           let subscriptions = (data.package && data.package.subscriptions) || [];
           let tvSubscription = subscriptions.find((sub) => {
             return sub.type === 'tv';
-          }) || {};
+          });
+          if (tvSubscription) {
+            self.setHasSubscription();
+          }
+          tvSubscription = tvSubscription || {};
+
           self.setTotal(tvSubscription.total);
           self.setPackage(tvSubscription.package);
           self.emitChange();
@@ -47,6 +54,13 @@ class TVStore extends EventEmitter {
       pkg = null;
     }
     this._package = pkg;
+  }
+
+  hasSubscription() {
+    return this._hasSubscription;
+  }
+  setHasSubscription() {
+    this._hasSubscription = true;
   }
 
   emitChange() {

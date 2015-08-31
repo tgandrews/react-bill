@@ -161,4 +161,40 @@ describe('TV store', () => {
       }
     });
   });
+
+  describe('#hasSubscription', () => {
+    it('should by default return false', () => {
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', ['register']);
+      let store = new TVStore(MockDispatcher);
+      expect(store.hasSubscription()).toBe(false);
+    });
+
+    it('should be set to true if the LOADED action contains a TV subscription', (done) => {
+      let callback;
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+
+      let store = new TVStore(MockDispatcher);
+
+      store.on(TVStore.CHANGE_EVENT, () => {
+        expect(store.hasSubscription()).toBe(true);
+        done();
+      });
+
+      callback({
+        type: 'LOADED',
+        value: {
+          package: {
+            subscriptions: [
+              {
+                type: 'tv'
+              }
+            ]
+          }
+        }
+      });
+    });
+  });
 });
