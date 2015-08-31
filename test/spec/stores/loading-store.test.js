@@ -1,6 +1,5 @@
 import {EventEmitter} from 'events';
 
-import Dispatcher from '../../../src/dispatcher/dispatcher';
 import LoadingStore from '../../../src/stores/loading-store';
 
 describe('Loading Store', () => {
@@ -10,21 +9,32 @@ describe('Loading Store', () => {
   });
 
   it('should be an instance of EventEmitter', () => {
-    expect(LoadingStore instanceof EventEmitter).toBe(true);
+    let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+    let store = new LoadingStore(MockDispatcher);
+    expect(store instanceof EventEmitter).toBe(true);
   });
 
   describe('#getState', () => {
     it('should default state to loading', () => {
-      expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADING);
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      let store = new LoadingStore(MockDispatcher);
+      expect(store.getState()).toBe(store.constructor.LOADING);
     });
 
     it('should update state to ready after receiving a loaded dispatch', (done) => {
-      LoadingStore.on(LoadingStore.constructor.CHANGE_EVENT, () => {
-        expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADED);
+      let MockDispatcher = jasmine.createSpyObj('dispatcher', [ 'register' ]);
+      let callback;
+      MockDispatcher.register.and.callFake((cb) => {
+        callback = cb;
+      });
+      let store = new LoadingStore(MockDispatcher);
+
+      store.on(LoadingStore.CHANGE_EVENT, () => {
+        expect(store.getState()).toBe(LoadingStore.LOADED);
         done();
       });
 
-      Dispatcher.dispatch({
+      callback({
         'type': 'LOADED',
         'value': {}
       });
