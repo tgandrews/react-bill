@@ -13,7 +13,7 @@ describe('Loading Store', () => {
     expect(LoadingStore instanceof EventEmitter).toBe(true);
   });
 
-  describe('#load', () => {
+  describe('#getState', () => {
     it('should default state to loading', () => {
       expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADING);
     });
