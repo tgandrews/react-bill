@@ -6,7 +6,7 @@ module.exports = function (config) {
   config.set({
     captureConsole: true,
     basePath: '',
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine-ajax', 'jasmine'],
     files: [
       'test/helpers/pack/**/*.js',
       'test/helpers/react/**/*.js',
@@ -76,6 +76,7 @@ module.exports = function (config) {
         require('karma-webpack'),
         require('karma-sourcemap-loader'),
         require('karma-jasmine'),
+        require('karma-jasmine-ajax'),
         require('karma-chrome-launcher'),
         require('karma-firefox-launcher'),
         require('karma-safari-launcher')
