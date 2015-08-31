@@ -13,19 +13,21 @@ describe('Loading Store', () => {
     expect(LoadingStore instanceof EventEmitter).toBe(true);
   });
 
-  it('should default state to loading', () => {
-    expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADING);
-  });
-
-  it('should update state to ready after receiving a loaded dispatch', (done) => {
-    LoadingStore.on(LoadingStore.constructor.CHANGE_EVENT, () => {
-      expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADED);
-      done();
+  describe('#load', () => {
+    it('should default state to loading', () => {
+      expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADING);
     });
 
-    Dispatcher.dispatch({
-      'type': 'LOADED',
-      'value': {}
+    it('should update state to ready after receiving a loaded dispatch', (done) => {
+      LoadingStore.on(LoadingStore.constructor.CHANGE_EVENT, () => {
+        expect(LoadingStore.getState()).toBe(LoadingStore.constructor.LOADED);
+        done();
+      });
+
+      Dispatcher.dispatch({
+        'type': 'LOADED',
+        'value': {}
+      });
     });
   });
 });
