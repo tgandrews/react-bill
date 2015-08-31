@@ -1,13 +1,9 @@
 import {EventEmitter} from 'events';
 
+import {isValidTotal} from './utils';
+
 const CHANGE_EVENT = 'change';
 const LOADED_ACTION = 'LOADED';
-
-function isValidTotal(value) {
-  return (typeof value) === 'number'
-    && isFinite(value)
-    && value >= 0;
-}
 
 function getDateOrNull(value) {
   let date = new Date(value);

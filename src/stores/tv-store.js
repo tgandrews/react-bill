@@ -1,5 +1,6 @@
 import {EventEmitter} from 'events';
 import 'array.prototype.find';
+import {isValidTotal} from './utils';
 
 const CHANGE_EVENT = 'change';
 
@@ -10,6 +11,7 @@ class TVStore extends EventEmitter {
     super();
 
     this._total = null;
+    this._package = null;
 
     let self = this;
     dispatcher.register((action) => {
@@ -21,7 +23,7 @@ class TVStore extends EventEmitter {
             return sub.type === 'tv';
           }) || {};
           self.setTotal(tvSubscription.total);
-          // self.setPackage();
+          self.setPackage(tvSubscription.package);
           self.emitChange();
           break;
       }
@@ -31,13 +33,21 @@ class TVStore extends EventEmitter {
     return this._total;
   }
   setTotal(total) {
+    if (!isValidTotal(total)) {
+      total = null;
+    }
     this._total = total;
   }
 
   getPackage() {
+    return this._package;
   }
-  // setPackage(pkg) {
-  // }
+  setPackage(pkg) {
+    if (typeof pkg !== 'string') {
+      pkg = null;
+    }
+    this._package = pkg;
+  }
 
   emitChange() {
     this.emit(CHANGE_EVENT);
