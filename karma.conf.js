@@ -13,11 +13,12 @@ module.exports = function (config) {
       'test/spec/**/*.js'
     ],
     preprocessors: {
-      'test/helpers/createComponent.js': ['webpack'],
-      'test/spec/**/*.js': ['webpack']
+      'test/helpers/createComponent.js': ['webpack', 'sourcemap'],
+      'test/spec/**/*.js': ['webpack', 'sourcemap']
     },
     webpack: {
       cache: true,
+      devtool: 'inline-source-map',
       module: {
         loaders: [{
           test: /\.gif/,
@@ -73,6 +74,7 @@ module.exports = function (config) {
     singleRun: true,
     plugins: [
         require('karma-webpack'),
+        require('karma-sourcemap-loader'),
         require('karma-jasmine'),
         require('karma-chrome-launcher'),
         require('karma-firefox-launcher')
