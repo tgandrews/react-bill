@@ -20,11 +20,13 @@ class SummaryStore extends EventEmitter {
     this._period = {to: null, from: null};
     this._generated = null;
     this._due = null;
+    this._hasLoaded = false;
 
     self = this;
     dispatcher.register((action) => {
       switch(action.type) {
         case LOADED_ACTION:
+          self._hasLoaded = true;
           self.setTotal(action.value);
 
           let period = action.value && action.value.statement && action.value.statement.period;
@@ -77,6 +79,10 @@ class SummaryStore extends EventEmitter {
   }
   setDue(due) {
     this._due = getDateOrNull(due);
+  }
+
+  hasLoaded() {
+    return this._hasLoaded;
   }
 
   emitChange () {
